@@ -1,0 +1,13 @@
+.isPrimary {
+  background-color: rgb(0, 0, 0);
+}
+
+.text-isPrimary {
+  color: rgb(0, 0, 0) !important;
+}
+
+.iconPrimary{
+  color: black;
+  margin-right: 5px;
+  margin-left: 5px;
+}
