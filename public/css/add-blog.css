@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+.bg-orange {
+    background-color: orangered;
+}
+
+.bg-orange:hover {
+    background-color: #f57141 !important;
+}
+
+.text-orange {
+    color: orangered !important;
+    font-weight: bold;
+}
+
+nav {
+    height: 8vh;
+}
+
+.container-fluid {
+    height: 92vh;
+}
+
+.container-form {
+    width: 450px;
+}
