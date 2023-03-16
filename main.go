@@ -80,32 +80,24 @@ func main() {
 	e.Logger.Fatal(e.Start("localhost:5000"))
 }
 
-func formLogin(c echo.Context) error {
-	sess, _ := session.Get("session", c)
-
-	flash := map[string]interface{}{
-		"FlashStatus":  sess.Values["status"],
-		"FlashMessage": sess.Values["message"],
-	}
-
-	delete(sess.Values, "message")
-	delete(sess.Values, "status")
-	tmpl, err := template.ParseFiles("views/login.html")
-
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message ": err.Error()})
-	}
-	return tmpl.Execute(c.Response(), flash)
-}
-
 func formRegister(c echo.Context) error {
 
 	tmpl, err := template.ParseFiles("views/register.html")
-
+	sess, _ := session.Get("session", c)
+	message := "Berhasil register"
+	status := true
+	if sess.Values["message"] != nil {
+		message = sess.Values["message"].(string)
+		status = sess.Values["status"].(bool)
+	}
+	delete(sess.Values, "message")
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message ": err.Error()})
 	}
-	return tmpl.Execute(c.Response(), nil)
+	return tmpl.Execute(c.Response(), map[string]interface{}{
+		"Message": message,
+		"Status":  status,
+	})
 }
 
 func addRegister(c echo.Context) error {
@@ -122,7 +114,7 @@ func addRegister(c echo.Context) error {
 
 	_, err = connection.Conn.Exec(context.Background(), "INSERT INTO tb_user (name, email, password) VALUES ($1, $2, $3)", name, email, passwordHash)
 	if err != nil {
-		redirectWithMessage(c, "Register failed, please try again", false, "/register")
+		redirectWithMessage(c, "Register failed, Email Already Used", false, "/register")
 	}
 	return redirectWithMessage(c, "Register Success, please login", true, "/login")
 }
@@ -134,10 +126,11 @@ func home(c echo.Context) error {
 		"FlashMessage": sess.Values["message"],
 		"FlashName":    sess.Values["name"],
 	}
+	// sess.ID = strconv.Itoa(sess.Values["id"].(int))
 	delete(sess.Values, "message")
 
 	sess.Save(c.Request(), c.Response())
-	data, _ := connection.Conn.Query(context.Background(), "SELECT tb_project.id, tb_project.title, tb_project.content, tb_project.tech, tb_project.start_date, tb_project.end_date, tb_project.duration, tb_user.name, tb_project.image FROM tb_project inner join tb_user ON tb_project.author_id = tb_user.id")
+	data, _ := connection.Conn.Query(context.Background(), "SELECT tb_project.id, tb_project.title, tb_project.content, tb_project.tech, tb_project.start_date, tb_project.end_date, tb_project.duration, tb_user.name, tb_project.image FROM tb_project inner join tb_user ON tb_project.author_id = tb_user.id ")
 
 	var result []Project
 	for data.Next() {
@@ -309,7 +302,6 @@ func updateProject(c echo.Context) error {
 	python := c.FormValue("python")
 	node := c.FormValue("node")
 	golang := c.FormValue("golang")
-
 	image := c.Get("dataFile").(string)
 	var techs [4]string
 	techs[0] = react
@@ -355,6 +347,24 @@ func updateProject(c echo.Context) error {
 	}
 
 	return c.Redirect(http.StatusMovedPermanently, "/")
+}
+
+func formLogin(c echo.Context) error {
+	sess, _ := session.Get("session", c)
+
+	flash := map[string]interface{}{
+		"FlashStatus":  sess.Values["status"],
+		"FlashMessage": sess.Values["message"],
+	}
+
+	delete(sess.Values, "message")
+	delete(sess.Values, "status")
+	tmpl, err := template.ParseFiles("views/login.html")
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message ": err.Error()})
+	}
+	return tmpl.Execute(c.Response(), flash)
 }
 
 func runLogin(c echo.Context) error {

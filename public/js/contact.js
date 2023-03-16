@@ -1,45 +1,37 @@
+function getData(){
+   let name = document.getElementById("name").value
+   let email = document.getElementById("email").value
+   let phone = document.getElementById("phone").value
+   let subject = document.getElementById("subject").value
+   let address = document.getElementById("address").value
+   // let tagname = document.getElementsByTagName("input")
+   // let ClassName = document.getElementsByClassName("email")
 
+   if(name == ""){
+       return alert(" NAMA TIDAK BOLEH KOSONG!!!")
+   } else if(email == ""){
+       return alert(" EMAIL TIDAK BOLEH KOSONG!!!")
+   } else if(phone == ""){
+       return alert(" PHONE TIDAK BOLEH KOSONG!!!")
+   } else if(subject == ""){
+       return alert(" SUBJECT TIDAK BOLEH KOSONG!!!")
+   } else if(address == ""){
+       return alert(" ADDRESS TIDAK BOLEH KOSONG!!!")
+   }
 
-function submitData(){
+   const emailReceiver = "aoishinziku@gmail.com"
 
-    let name = document.getElementById("input-name").value
-    let email = document.getElementById("input-email").value
-    let phone = document.getElementById("input-phone").value
-    let subject = document.getElementById("input-subject").value
-    let message = document.getElementById("input-message").value
+   let a = document.createElement('a')
+   a.href = `mailto:${emailReceiver}?subject=${subject}&body=Hai, saya ${name}, alamat saya ${address}, hubungi saya ${phone}`
+   a.click()
 
+   let data = {
+       name,
+       email,
+       phone,
+       subject,
+       address
+   }
 
-    if(name == ""){
-       return alert("name harus diisi")
-    } else if(email == ""){
-       return alert("email harus diisi")
-    } else if(phone == ""){
-       return alert("phone harus diisi")
-    } else if(subject == ""){
-       return alert("subject harus diisi")
-    } else if(message == ""){
-       return alert("message harus diisi")
-    }
-
-    console.log(name);
-    console.log(email);
-    console.log(phone);
-    console.log(subject);
-    console.log(message);
-
-    let emailReceiver = "afra.faris12@gmail.com"
-
-    let a = document.createElement('a')
-    a.href = `mailto:${emailReceiver}?subject=${subject}&body=Hallo nama saya ${name}, ${message}, silahkan kontak ke nomor ${phone}`
-    a.click()
-    
-    let student = {
-        name,
-        email,
-        phone,
-        subject,
-        message
-    }
-
-    console.log(student);
+   console.log(data);
 }

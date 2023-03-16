@@ -41,13 +41,13 @@
         </nav>
 
         {{if .FlashMessage}}
-        {{if .FlashStatus}}
-        <div class="alert alert-success" role="alert">
-        {{.FlashMessage}}
-        </div>
-        {{else}}
-        <div></div>
-        {{end}}
+          {{if .FlashStatus}}
+            <div class="alert alert-success" role="alert">
+            {{.FlashMessage}}
+            </div>
+            {{else}}
+            <div></div>
+          {{end}}
         {{end}}
 
         <div class="container d-flex justify-content-center">

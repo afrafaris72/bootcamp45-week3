@@ -22,6 +22,7 @@
                   </li>
                 </ul>
 
+
                 <div class="d-flex justify-content-end">
                     <ul class="navbar-nav me-auto mb-2 ms-5 mb-lg-0">
                         <li class="nav-item">
@@ -37,10 +38,21 @@
             </div>
         </nav>
 
-
+        
         <div class="container d-flex justify-content-center">
+          
+          
             <div class="w-50">
             <h3 class="text-center mt-5">REGISTER</h3>
+            {{if eq false .Status}}
+           
+              <div class="alert alert-danger" role="alert">
+              {{.Message}}
+              </div>
+              {{else}}
+              <div></div>
+           
+          {{end}}
             <form action="/addRegister" method="POST">
                 <div class="mb-3">
                   <label for="username" class="form-label">Name</label>
